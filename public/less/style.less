@@ -11,25 +11,43 @@ body {
 
 /* Generic color classes for spans of text. */
 
-span.success {color: @successText}
-span.failure {color: @errorText}
+span.success { color: @successText }
+span.failure { color: @errorText }
 
 
-/* ===== Primary Styles ========================================================
-   Author:
-   ========================================================================== */
-
-
-#death_counter > p {
+div#death_counter > p {
   margin: 3px;
   font-size: 15px;
   color: @grayLight;
 }
 
+div.welcome {
+  background-color: @grayDarker;
+  margin-bottom: 40px;
+  margin-top: 15px;
+}
+
+div.welcome * h2, div.welcome * p, div.welcome * a {
+  color: @white;
+}
+
+div.welcome_block {
+  padding: 10px;
+}
+
+div.welcome_password {
+  margin-top: 10px;
+}
+
+div.welcome_dismiss {
+  margin-top: 10px;
+  float: right;
+}
 
 
-
-
-
-
-
+span.key {
+  background: white;
+  color: green;
+  padding-left: 3px;
+  padding-right: 3px;
+}

@@ -2,7 +2,7 @@
 #
 # Is a mixin for main Rabble class.
 
-module ::DeathClock
+module DeathClock
   # Set the default key expiry.
   def self.start(slug)
     $r.expire "rab:site:#{slug}", 10800

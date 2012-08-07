@@ -9,9 +9,13 @@ get %r(^\/([^\/+]{3,})) do |slug|
   raise Sinatra::NotFound unless @rabble
 
   # Check cookie for first visit user.
-  if session['admin']
+  if session['admin'] or true
     # Set the flag for displaying first-visit dialogue.
     @first_visit = true
+
+    # Get url string for welcome message.
+    @url = 'http://' + request.host_with_port + '/' + @rabble.slug
+
     # Clear the cookie flag.
     session['admin'] = nil
   end

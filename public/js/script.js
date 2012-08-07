@@ -1,6 +1,5 @@
 // Rabble name validation.
-
-$(document).ready(function () {
+function validateRabbleName () {
   var validateName = $('#validate_name');
   $('#name').keyup(function () {
     var t = this;
@@ -31,12 +30,10 @@ $(document).ready(function () {
       this.lastValue = this.value;
     }
   });
-});
-
+}
 
 // Deathclock updates.
-
-function updatedClocks (slug) {
+function updateClocks (slug) {
   var deathClock = $("span#death_clock");
   var createdAgo = $("span#created_ago");
   $.post("/a/clock_update", { slug: slug },
@@ -46,13 +43,21 @@ function updatedClocks (slug) {
   });
 }
 
-// Looped on pageload
-
-$(document).ready(function() {
+// Deathclock update loop.
+function updateClocksLoop () {
   var slug = $('h2#title').data("slug");
-  updatedClocks(slug);
+  updateClocks(slug);
   var refreshId = setInterval(function() {
-    updatedClocks(slug);
+    updateClocks(slug);
   }, 5000);
-  $.ajaxSetup({ cache: false });
+}
+
+// Looped on pageload
+$(document).ready(function() {
+  var page = $('div#page_wrapper').data("page");
+  if (page == 'home') {
+    validateRabbleName();
+  } else if (page == 'rabble') {
+    updateClocksLoop();
+  }
 });

@@ -1,8 +1,8 @@
 <%= erb :'rabble/_first_visit' if @first_visit %>
 
-<div class='row-fluid'>
+<div id='page_wrapper' data-page='rabble' class='row-fluid'>
   <div class='span9'>
-    <h2 id="title" data-slug="<%= @rabble.slug %>"><%= @rabble.name %></h2>
+    <h2 id='title' data-slug='<%= @rabble.slug %>'><%= @rabble.name %></h2>
     <p>set the agenda (vid, image, text)</p>
   </div>
 

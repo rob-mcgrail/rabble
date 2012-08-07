@@ -4,7 +4,7 @@
 # rabbles, and individual rabble behaviour.
 
 class Rabble
-  include DeathClock
+  include ::DeathClock
   attr_reader :name, :slug, :created
 
   # Check that a name is valid.
