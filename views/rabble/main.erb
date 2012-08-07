@@ -1,0 +1,12 @@
+<%= erb :'rabble/_first_visit' if @first_visit %>
+
+<div class='row-fluid'>
+  <div class='span9'>
+    <h2 id="title" data-slug="<%= @rabble.slug %>"><%= @rabble.name %></h2>
+    <p>set the agenda (vid, image, text)</p>
+  </div>
+
+  <div id='death_counter' class='span3'>
+    <%= erb :'rabble/_death_counter' %>
+  </div>
+</div>
