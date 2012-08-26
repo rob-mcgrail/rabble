@@ -1,5 +1,9 @@
 # Ajax helper for returning form for setting agenda.
 post '/a/get_agenda_form' do
+  rabble = Rabble.get(params[:slug])
+
+  return 403 if rabble.agenda
+
   agenda_type = params[:type]
 
   case agenda_type

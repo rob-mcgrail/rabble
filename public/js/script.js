@@ -66,11 +66,13 @@ function dismissWelcome () {
 }
 
 
+
 $('a.agenda_symbol').click(function () {
+  var slug = $('h2#title').data("slug");
   var type = $(this).data("agenda");
   var agenda_form_div = $("div#agenda_form_wrapper");
 
-  $.post("/a/get_agenda_form", { type: type },
+  $.post("/a/get_agenda_form", { type: type, slug: slug },
     function(j) {
       agenda_form_div.html(j.form_html);
   });
