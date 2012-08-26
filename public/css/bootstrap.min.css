@@ -5050,7 +5050,7 @@ a.thumbnail:hover {
   visibility: hidden;
 }
 body {
-  padding-top: 30px;
+  padding-top: 10px;
   padding-bottom: 40px;
 }
 /*!
@@ -6371,6 +6371,41 @@ body {
     margin-left: 30px;
   }
 }
-/* ===== Primary Styles ========================================================
-   Author:
-   ========================================================================== */
+/* Generic color classes for spans of text. */
+span.success {
+  color: #468847;
+}
+span.failure {
+  color: #b94a48;
+}
+div#death_counter > p {
+  margin: 3px;
+  font-size: 15px;
+  color: #999999;
+}
+div.welcome {
+  background-color: #222222;
+  margin-bottom: 40px;
+  margin-top: 15px;
+}
+div.welcome * h2,
+div.welcome * p,
+div.welcome * a {
+  color: #ffffff;
+}
+div.welcome_block {
+  padding: 10px;
+}
+div.welcome_password {
+  margin-top: 10px;
+}
+div.welcome_dismiss {
+  margin-top: 10px;
+  float: right;
+}
+span.key {
+  background: white;
+  color: green;
+  padding-left: 3px;
+  padding-right: 3px;
+}
