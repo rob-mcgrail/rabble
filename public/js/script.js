@@ -32,6 +32,7 @@ function validateRabbleName () {
   });
 }
 
+
 // Deathclock updates.
 function updateClocks (slug) {
   var deathClock = $("span#death_clock");
@@ -43,6 +44,7 @@ function updateClocks (slug) {
   });
 }
 
+
 // Deathclock update loop.
 function updateClocksLoop () {
   var slug = $('h2#title').data("slug");
@@ -52,12 +54,27 @@ function updateClocksLoop () {
   }, 5000);
 }
 
+
+// Dismissable welcome block.
+function dismissWelcome () {
+  $target = $('div#welcome_container');
+  $('a#welcome_dismiss').click(function () {
+    $target.fadeOut(180, function() {
+      $target.remove();
+    });
+  });
+}
+
+
 // Looped on pageload
 $(document).ready(function() {
   var page = $('div#page_wrapper').data("page");
+
   if (page == 'home') {
     validateRabbleName();
+
   } else if (page == 'rabble') {
     updateClocksLoop();
+    dismissWelcome();
   }
 });

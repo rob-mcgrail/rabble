@@ -8,15 +8,17 @@ class Rabble
   attr_reader :name, :slug, :created
 
   # Check that a name is valid.
-  def self.valid_name?(name)
+  def self.invalid_name?(name)
     # Normalize the name into a slug.
     slug = name.parameterize
 
     # Check is name is used, to is too short (for route matcher).
-    if $r.sismember('rab:sites', slug) or slug.length < 3
-      nil
+    if slug.length < 2
+      :short
+    elsif $r.sismember('rab:sites', slug)
+      :used
     else
-      true
+      nil
     end
   end
 

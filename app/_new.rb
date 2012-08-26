@@ -9,7 +9,7 @@ post '/p/new' do
   name = params[:name]
 
   # Check name is valid.
-  if Rabble.valid_name? name
+  unless Rabble.invalid_name? name
 
     rabble = Rabble.create(name)
 
@@ -19,7 +19,7 @@ post '/p/new' do
 
     redirect "/#{rabble.slug}"
   else
-    flash[:error] = 'Sorry, that one already existed.'
+    flash[:error] = "There's something wrong with that rabble name."
     redirect '/'
   end
 end
@@ -27,12 +27,20 @@ end
 
 # Ajax helper for validation of name from homepage.
 post '/a/validate_name' do
-  message = 'That name is in use...'
+  unlock = false
 
-  if Rabble.valid_name? params[:name]
+  invalid = Rabble.invalid_name? params[:name]
+
+  if invalid == nil
     message = 'Available :D'
     # Unlock value used to change color and submit button state.
     unlock = true
+  elsif invalid == :short
+    message = 'Too short'
+  elsif invalid == :used
+    message = "That's in use"
+  else
+    message = "Invalid"
   end
 
   content_type :json

@@ -1,7 +1,7 @@
 # Main route for a rabble.
 #
 # Matches strings longer than 3 characters, without a second /
-get %r(^\/([^\/+]{3,})) do |slug|
+get %r(^\/([^\/+]{2,})) do |slug|
   # Get rabble
   @rabble = Rabble.get(slug)
 
