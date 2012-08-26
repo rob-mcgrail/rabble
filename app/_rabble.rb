@@ -2,14 +2,16 @@
 #
 # Matches strings longer than 3 characters, without a second /
 get %r(^\/([^\/+]{2,})) do |slug|
+
   # Get rabble
   @rabble = Rabble.get(slug)
 
   # 404 if no rabble was returned.
   raise Sinatra::NotFound unless @rabble
 
+
   # Check cookie for first visit user.
-  if session['admin']
+  if session['first_visit']
     # Set the flag for displaying first-visit dialogue.
     @first_visit = true
 
@@ -17,8 +19,11 @@ get %r(^\/([^\/+]{2,})) do |slug|
     @url = 'http://' + request.host_with_port + '/' + @rabble.slug
 
     # Clear the cookie flag.
-    session['admin'] = nil
+    session['first_visit'] = nil
   end
+
+  # Find agenda for this rabble.
+  @agenda = @rabble.agenda
 
   erb :'rabble/main'
 end

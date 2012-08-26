@@ -15,7 +15,7 @@ post '/p/new' do
 
     # Set cookie flag for user creating the rabble.
     # This is used to show the one time welcome dialogue.
-    session['admin'] = true
+    session['first_visit'] = true
 
     redirect "/#{rabble.slug}"
   else

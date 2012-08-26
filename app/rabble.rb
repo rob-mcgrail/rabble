@@ -24,7 +24,7 @@ class Rabble
 
 
   # Create a new rabble.
-  #
+
   # Establishes all keys for the rabble.
   def self.create(name)
     # Normalize the name into a slug.
@@ -75,5 +75,12 @@ class Rabble
   # Getter for rabble's password.
   def password
     $r.get "rab:site:#{@slug}:pw"
+  end
+
+
+  # Getter for rabble's agenda.
+  def agenda
+    agenda = $r.hgetall "rab:site:#{@slug}:agenda"
+    agenda == {} ? nil : agenda
   end
 end
