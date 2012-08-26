@@ -39,4 +39,4 @@ post '/a/validate_name' do
 
   content_type :json
   { :msg => message, :unlock => unlock }.to_json
-en
+end
