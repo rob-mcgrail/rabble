@@ -9,6 +9,7 @@ gem "trollop"
 gem "redis"
 gem "json"
 gem "chronic_duration"
+gem "rdiscount"
 
 group :dev do
   gem "thin"

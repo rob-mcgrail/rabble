@@ -72,6 +72,12 @@ class Rabble
   end
 
 
+  def set_agenda(h)
+    $r.hset "rab:site:#{slug}:agenda", 'type', h[:type]
+    $r.hset "rab:site:#{slug}:agenda", 'content', h[:content]
+  end
+
+
   # Getter for rabble's password.
   def password
     $r.get "rab:site:#{@slug}:pw"

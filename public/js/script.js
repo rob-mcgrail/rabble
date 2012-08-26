@@ -76,7 +76,6 @@ $('a.agenda_symbol').click(function () {
     function(j) {
       agenda_form_div.html(j.form_html);
   });
-
 });
 
 

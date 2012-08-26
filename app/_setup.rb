@@ -4,9 +4,11 @@ post '/a/get_agenda_form' do
 
   return 403 if rabble.agenda
 
-  agenda_type = params[:type]
+  @agenda_type = params[:type]
 
-  case agenda_type
+  @slug = rabble.slug
+
+  case @agenda_type
   when 'text'
     agenda_form = erb :'setup/agenda_forms/_text', :layout => false
   else
@@ -15,4 +17,17 @@ post '/a/get_agenda_form' do
 
   content_type :json
   { :form_html => agenda_form }.to_json
+end
+
+
+# Post route for creating agenda.
+post '/p/agenda' do
+  rabble = Rabble.get(params[:slug])
+  h = {}
+  h[:type] = params[:type]
+  h[:content] = params[:content]
+
+  rabble.set_agenda(h)
+
+  redirect "/#{rabble.slug}"
 end
