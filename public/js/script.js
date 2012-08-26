@@ -66,6 +66,18 @@ function dismissWelcome () {
 }
 
 
+$('a.agenda_symbol').click(function () {
+  var type = $(this).data("agenda");
+  var agenda_form_div = $("div#agenda_form_wrapper");
+
+  $.post("/a/get_agenda_form", { type: type },
+    function(j) {
+      agenda_form_div.html(j.form_html);
+  });
+
+});
+
+
 // Looped on pageload
 $(document).ready(function() {
   var page = $('div#page_wrapper').data("page");

@@ -1,9 +1,3 @@
-# Homepage route.
-get '/?' do
-  erb :'home/main'
-end
-
-
 # Create a new Rabble.
 post '/p/new' do
   name = params[:name]
@@ -45,4 +39,4 @@ post '/a/validate_name' do
 
   content_type :json
   { :msg => message, :unlock => unlock }.to_json
-end
+en

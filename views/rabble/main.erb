@@ -1,10 +1,10 @@
-<%= erb :'rabble/_first_visit' if @first_visit %>
+<%= erb :'setup/_first_visit' if @first_visit %>
 
 <div id='page_wrapper' data-page='rabble' class='row-fluid'>
   <div class='span9'>
     <h2 id='title' data-slug='<%= @rabble.slug %>'><%= @rabble.name %></h2>
 
-    <%= @agenda ? erb(:'rabble/_agenda') : erb(:'rabble/_set_agenda')  %>
+    <%= @agenda ? erb(:'rabble/_agenda') : erb(:'setup/_set_agenda')  %>
 
   </div>
 
