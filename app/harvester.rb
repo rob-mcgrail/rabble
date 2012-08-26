@@ -22,5 +22,6 @@ class Harvester
   def self.harvest(slug)
     $r.srem 'rab:sites', slug
     $r.del "rab:sites:#{slug}:pw"
+    $r.del "rab:site:#{slug}:agenda"
   end
 end
