@@ -10,6 +10,7 @@ gem "redis"
 gem "json"
 gem "chronic_duration"
 gem "rdiscount"
+gem "html_truncator"
 
 group :dev do
   gem "thin"
