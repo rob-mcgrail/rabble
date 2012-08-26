@@ -9,7 +9,7 @@ get %r(^\/([^\/+]{2,})) do |slug|
   raise Sinatra::NotFound unless @rabble
 
   # Check cookie for first visit user.
-  if session['admin'] or true
+  if session['admin']
     # Set the flag for displaying first-visit dialogue.
     @first_visit = true
 
