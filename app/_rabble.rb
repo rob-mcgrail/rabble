@@ -1,29 +1,54 @@
-# Main route for a rabble.
-#
-# Matches strings longer than 3 characters, without a second /
-get %r(^\/([^\/+]{2,})) do |slug|
 
-  # Get rabble
+get %r(^\/([^epac]{1}$|[^\/\s]{2,}$)) do |slug|
+
   @rabble = Rabble.get(slug)
 
-  # 404 if no rabble was returned.
-  raise Sinatra::NotFound unless @rabble
+  @session = Time.now.to_i
+  @rabble.register_session @session
 
-
-  # Check cookie for first visit user.
-  if session['first_visit']
-    # Set the flag for displaying first-visit dialogue.
-    @first_visit = true
-
-    # Get url string for welcome message.
-    @url = 'http://' + request.host_with_port + '/' + @rabble.slug
-
-    # Clear the cookie flag.
-    session['first_visit'] = nil
+  unless @rabble
+    redirect '/e'
   end
 
-  # Find agenda for this rabble.
-  @agenda = @rabble.agenda
+  if @rabble.ttl < 1
+    redirect '/e'
+  end
 
   erb :'rabble/main'
+end
+
+
+post '/a/kill' do
+  session = params['session']
+  slug = params['rabble']
+
+  penalty = 10
+
+  rabble = Rabble.get(slug)
+
+  if rabble.valid_session?(session)
+    rabble.decrease(penalty)
+    response = { 'failed' => false, 'penalty' => penalty }
+  else
+    response = {'failed' => true}
+  end
+
+  content_type :json
+  response.to_json
+end
+
+
+post '/a/ttl' do
+  slug = params['rabble']
+
+  rabble = Rabble.get(slug)
+
+  if rabble
+    ttl = ChronicDuration.output(rabble.ttl, :format => :short)
+
+    content_type :json
+    { :ttl => ttl }.to_json
+  else
+    400
+  end
 end

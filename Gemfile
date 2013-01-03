@@ -2,22 +2,13 @@ source :rubygems
 
 gem "sinatra"
 gem "sinatra-flash"
-gem "erubis"
-gem "warden"
-gem "bcrypt-ruby"
-gem "trollop"
 gem "redis"
+gem "thin"
+gem "unicorn"
+gem "erubis"
+gem "trollop"
+gem "nokogiri"
 gem "json"
+gem "sanitize"
+gem "babosa"
 gem "chronic_duration"
-gem "rdiscount"
-gem "html_truncator"
-
-group :dev do
-  gem "thin"
-end
-
-group :test do
-  gem "minitest", :platforms => :mri_18
-  gem "minitest-colorize"
-  gem "webmock"
-end

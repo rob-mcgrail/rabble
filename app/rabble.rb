@@ -1,92 +1,62 @@
-# Main class for rabbles.
-#
-# Provides a number of class methods of creating and getting
-# rabbles, and individual rabble behaviour.
-
 class Rabble
-  include ::DeathClock
-  attr_reader :name, :slug, :created
+  include DeathClock
+  include Session
 
-  # Check that a name is valid.
-  def self.invalid_name?(name)
-    # Normalize the name into a slug.
-    slug = name.parameterize
+  def self.exists?(slug)
+    $r.sismember 'rab:meta:rabbles', slug
+  end
 
-    # Check is name is used, to is too short (for route matcher).
-    if slug.length < 2
-      :short
-    elsif $r.sismember('rab:sites', slug)
-      :used
-    else
-      nil
+
+  def self.valid_name?(name)
+    name = Sanitize.clean(name, SanitizeRabbleName)
+    slug = name.to_slug.normalize.to_s
+
+    case
+    when slug.length == 0
+      failed = true
+    when slug =~ /^[epac]$/i
+      puts '!!!'
+      failed = true
+    when slug.length > 35
+      failed = true
+    when name.length > 35
+      failed = true
+    when Rabble.exists?(slug)
+      failed = true
     end
+
+    failed ? false : slug
   end
 
 
-  # Create a new rabble.
-
-  # Establishes all keys for the rabble.
-  def self.create(name)
-    # Normalize the name into a slug.
-    slug = name.parameterize
-
-    # Add slug to the master set.
-    $r.sadd 'rab:sites', slug
-
-    # Create a main hash for the rabble.
-    $r.hset "rab:site:#{slug}", 'name', name
-    $r.hset "rab:site:#{slug}", 'created', Time.now.to_i
-
-    # Store password in its own key to avoid accidental access.
-    $r.set "rab:site:#{slug}:pw", String.random
-
-    # Start the deathclock.
-    # Sets expiry key for the main rabble's hash key.
-    DeathClock.start(slug)
-
-    # Return the newly created rabble.
-    self.get(slug)
-  end
-
-
-  # Returns rabble object, by slug.
   def self.get(slug)
-    if $r.exists "rab:site:#{slug}"
-      self.new(slug)
+    name = $r.hget('rab::' + slug, 'name')
+
+    name ? Rabble.new(name) : nil
+  end
+
+
+  attr_reader :name, :slug, :k, :created_at
+
+
+  def initialize(name)
+    @name = name
+    @slug = @name.to_slug.normalize.to_s
+    @k = 'rab::' + @slug
+
+    if $r.sadd('rab:meta:rabbles', @slug)
+      $r.hset @k, 'name', @name
+      $r.hset @k, 'slug', @slug
+
+      t = Time.now.to_i
+      $r.hset @k, 'created_at', t
+      start_deathclock(t)
     else
-      nil
+      @created_at = $r.hget(@k, 'created_at')
     end
   end
 
 
-  # Setup instance variables for new rabble object.
-  def initialize(slug)
-    @slug = slug
+  private
 
-    # Get the main rabble hash.
-    site = $r.hgetall "rab:site:#{@slug}"
-
-    @name = site['name']
-    # Get time since creation in seconds.
-    @created = Time.now.to_i - site['created'].to_i
-  end
-
-
-  def set_agenda(h)
-    $r.hset "rab:site:#{slug}:agenda", 'type', h[:type]
-    $r.hset "rab:site:#{slug}:agenda", 'content', h[:content]
-  end
-
-
-  # Getter for rabble's password.
-  def password
-    $r.get "rab:site:#{@slug}:pw"
-  end
-
-
-  # Getter for rabble's agenda.
-  def agenda
-    agenda = $r.hgetall "rab:site:#{@slug}:agenda"
-    agenda == {} ? nil : agenda
-  end
 end

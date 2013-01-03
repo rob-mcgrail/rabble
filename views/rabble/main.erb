@@ -1,19 +1,24 @@
-<%= erb :'setup/_first_visit' if @first_visit %>
+<div class="sixteen columns rabble" data-rabble="<%= @rabble.slug %>">
+  <div class="row">
+    <div class="eight columns">
 
-<div id='page_wrapper' data-page='rabble' class='row-fluid'>
-  <div class='span9'>
-    <h2 id='title' data-slug='<%= @rabble.slug %>'><%= @rabble.name %></h2>
+      <header class="rabble-heading">
+        <h1><%= @rabble.name %></h1>
+      </header>
 
-    <%= @agenda ? erb(:'rabble/_agenda') : erb(:'setup/_set_agenda')  %>
+    </div>
 
-  </div>
+    <div class="five columns offset-by-two death-controls">
+      <span id="ttl" class="ttl">This rabble has <span id="ttl-duration"></span> to live</span>
 
+      <a href="/a/kill" data-session="<%= @session %>" class="kill" id="kill" title="KILL THIS RABBLE">
+        ♞
+      </a>
+    </div>
 
-
-
-  <div id='death_counter' class='span3'>
-
-    <%= erb :'rabble/_death_counter' %>
+    <div class="penalty-wrapper">
+      <span id="penalty" class="penalty"></span>
+    </div>
 
   </div>
 </div>

@@ -9,9 +9,10 @@ require './settings'
 
 Dir['./modules/*.rb'].each {|file| require file }
 
-require './app/redis'
-require './app/death_clock'
-require './app/harvester'
-require './app/rabble'
+require './app/redis.rb'
+require './app/death_clock.rb'
+require './app/session.rb'
+require './app/rabble.rb'
+
 
 Dir['./app/_*.rb'].each {|file| require file }

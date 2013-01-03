@@ -1,9 +1,0 @@
-<p id="agenda">Agenda:</p>
-
-<% if @agenda['type'] == 'text' %>
-
-  <div class='markdown_agenda span9'>
-    <%= RDiscount.new(@agenda['content'], :filter_html, :safelink).to_html %>
-  </div>
-
-<% end %>

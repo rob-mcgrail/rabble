@@ -1,23 +1,26 @@
-# DeathClock module manages the expiry of the main rabble key.
-#
-# Is a mixin for main Rabble class.
-
 module DeathClock
-  # Set the default key expiry.
-  def self.start(slug)
-    $r.expire "rab:site:#{slug}", 10800
+  EXPIRY = 3600
+
+  def ttl
+    time = Time.now.to_i
+    life = $r.get(@k + ':life').to_i
+    age = time - life
+    EXPIRY - age
   end
 
 
-  # Add arbitrary seconds to the key expiry.
-  def extend_life(seconds)
-    ttl = $r.ttl "rab:site:#{@slug}"
-    $r.expire "rab:site:#{@slug}", ttl + seconds
+  def extend(i)
+    $r.incrby(@k + ':life', i)
   end
 
 
-  # Return the rabble's ttl.
-  def death
-    $r.ttl "rab:site:#{@slug}"
+  def decrease(i)
+    $r.decrby(@k + ':life', i)
+  end
+
+  private
+
+  def start_deathclock(t)
+    $r.set(@k + ':life', t)
   end
 end
