@@ -7,7 +7,7 @@ GEM
     daemons (1.1.4)
     erubis (2.7.0)
     eventmachine (0.12.10)
-    json (1.7.5)
+    json (1.7.7)
     kgio (2.6.0)
     nokogiri (1.5.0)
     numerizer (0.1.1)
