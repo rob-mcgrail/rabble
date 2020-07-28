@@ -16,8 +16,8 @@ GEM
     nokogumbo (1.5.0)
       nokogiri
     numerizer (0.1.1)
-    rack (1.6.12)
-    rack-protection (1.1.4)
+    rack (1.6.13)
+    rack-protection (1.5.5)
       rack
     raindrops (0.7.0)
     redis (3.0.1)
